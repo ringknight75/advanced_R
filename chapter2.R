@@ -1,10 +1,11 @@
 #====================================================================================================
 # 작성일자 : 2021.03.29
 # 작성목적 : Advaned R 1장 관련 소스 
+# 참조주소 : https://advanced-r-solutions.rbind.io/names-and-values.html
 #====================================================================================================
 
 library(lobstr)
-install.packages("lobstr")
+# install.packages("lobstr")
 
 # Quiz 1
 # df 데이터프레임의 컮럼3을 생성하여라. 
@@ -38,5 +39,64 @@ y <- x
 obj_addr(x)  #{lobstr}
 obj_addr(y)  #{lobstr}
 
+
+#======================================================================================
+# 2.2.2 Exercises
+#======================================================================================
+
+a <- 1:10
+b <- a
+c <- b
+d <- 1:10
+
+list_of_names <- list(a, b, c, d)
+obj_addrs(list_of_names) # (주의) obj_addrs vs obj_addr
+
+
+
+mean_functions <- list(
+  mean,
+  base::mean,
+  get("mean"),
+  evalq(mean),
+  match.fun("mean")
+)
+
+unique(obj_addrs(mean_functions))
+
+
+
+#======================================================================================
+# 2.3
+#======================================================================================
+
+x <- c(1, 2, 3)
+y <- x
+
+y[[3]] <- 4
+y[3] <- 5
+x
+y
+
+x <- c(1, 2, 3)
+tracemem(x)
+obj_addr(x)  #{lobstr}
+
+y <- x
+y[[3]] <- 4L
+y[[5]] <- 5L
+
+untracemem(y)
+
+
+f <- function(a) {
+  a
+}
+
+x <- c(1, 2, 3)
+tracemem(x)
+
+z <- f(x)
+untracemem(x)
 
 
